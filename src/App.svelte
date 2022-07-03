@@ -1,65 +1,45 @@
 <script lang="ts">
-  import logo from "./assets/svelte.png";
-  import Counter from "./lib/Counter.svelte";
+  import Project from "./lib/Project.svelte";
+  import ProjectDetails from "./lib/ProjectDetails.svelte";
+  import BottomBar from "./lib/BottomBar.svelte";
+
+  import { projects } from "./data/projects";
+  import { selectedProject } from "./state/projects";
 </script>
 
 <main>
-  <img src={logo} alt="Svelte Logo" />
-  <h1>Hello Typescript!</h1>
-
-  <Counter />
-
-  <p>
-    Visit <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte
-    apps.
-  </p>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme">SvelteKit</a> for
-    the officially supported framework, also powered by Vite!
-  </p>
+  <div class="container">
+    <div class="content">
+      <div class="main">
+        <div class="description">
+          <div class="logo" />
+          {#if $selectedProject === null}
+            <div>
+              <h2>Project Portfolio</h2>
+              <p>
+                Hi! My name is Kyle. I grew up in a small community in the
+                Sierra Nevada mountains. In 2019, I graduated Utah State
+                University with a BS in Computational Mathematics. My passions
+                include mathematics, electrical engineering, programming, music,
+                hiking, climbing, and philosophy. Here you can see some
+                highlights from my past/current projects. Check out my blog for
+                diatribes on math and programming.
+              </p>
+            </div>
+          {/if}
+        </div>
+        {#if $selectedProject === null}
+          <ul class="projects-list">
+            {#each projects as project}
+              <Project {project} />
+            {/each}
+          </ul>
+        {/if}
+        {#if $selectedProject !== null}
+          <ProjectDetails />
+        {/if}
+        <BottomBar />
+      </div>
+    </div>
+  </div>
 </main>
-
-<style>
-  :root {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  }
-
-  main {
-    text-align: center;
-    padding: 1em;
-    margin: 0 auto;
-  }
-
-  img {
-    height: 16rem;
-    width: 16rem;
-  }
-
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4rem;
-    font-weight: 100;
-    line-height: 1.1;
-    margin: 2rem auto;
-    max-width: 14rem;
-  }
-
-  p {
-    max-width: 14rem;
-    margin: 1rem auto;
-    line-height: 1.35;
-  }
-
-  @media (min-width: 480px) {
-    h1 {
-      max-width: none;
-    }
-
-    p {
-      max-width: none;
-    }
-  }
-</style>
