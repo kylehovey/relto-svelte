@@ -9,7 +9,7 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: "module",
     tsconfigRootDir: __dirname,
-    project: ["./tsconfig.json"],
+    project: ["./tsconfig.eslint.json"],
     extraFileExtensions: [".svelte"],
   },
   env: {
@@ -31,8 +31,9 @@ module.exports = {
   plugins: ["svelte3", "@typescript-eslint"],
   ignorePatterns: [
     "node_modules",
-    ".eslintrc.js",
-    "rollup.config.js",
     "public",
+    "svelte.config.js",
+    "vite.config.js",
+    ".eslintrc.cjs"
   ],
 };
