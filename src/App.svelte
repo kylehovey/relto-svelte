@@ -1,10 +1,20 @@
-<script>
-	export let name;
+<script lang="typescript">
+	export let name: string = 'World';
+	export let derp: string = '';
+
+	interface Test {
+		value: string;
+	}
+
+	export const test: Test = {
+		value: 'dingle',
+	};
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<h1>Hello {name}! You wrote {derp}. The test value is {test.value}</h1>
+	<input bind:value={derp} />
+	<input bind:value={test.value} />
 </main>
 
 <style>
