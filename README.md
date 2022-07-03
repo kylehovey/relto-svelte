@@ -1,6 +1,10 @@
-# Svelte + TS + Vite
+# Relto
 
-This template should help get you started developing with Svelte and TypeScript in Vite.
+[![Build](https://github.com/kylehovey/relto-svelte/actions/workflows/build.yml/badge.svg)](https://github.com/kylehovey/relto-svelte/actions/workflows/build.yml)
+[![Check](https://github.com/kylehovey/relto-svelte/actions/workflows/check.yml/badge.svg)](https://github.com/kylehovey/relto-svelte/actions/workflows/check.yml)
+[![Lint](https://github.com/kylehovey/relto-svelte/actions/workflows/lint.yml/badge.svg)](https://github.com/kylehovey/relto-svelte/actions/workflows/lint.yml)
+
+This is my personal site. I originally wrote it in React, but I decided to re-write it in Svelte to learn the framework.
 
 ## Recommended IDE Setup
 
