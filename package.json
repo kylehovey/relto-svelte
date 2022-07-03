@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "lint": "./node_modules/.bin/eslint .",
-    "prettier": "./node_modules/.bin/prettier --write ."
+    "prettier": "./node_modules/.bin/prettier --write .",
+    "prettier:check": "./node_modules/.bin/prettier --check ."
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
