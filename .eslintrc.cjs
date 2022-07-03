@@ -34,6 +34,6 @@ module.exports = {
     "public",
     "svelte.config.js",
     "vite.config.js",
-    ".eslintrc.cjs"
+    ".eslintrc.cjs",
   ],
 };
