@@ -183,7 +183,6 @@ div.container {
 
   li {
     display: inline-block;
-    *display: inline;
     zoom: 1;
 
     a {
@@ -229,6 +228,15 @@ div.container {
         z-index: 2;
         -webkit-transform: scale(1.1);
         transform: scale(1.1);
+      }
+
+      span {
+        position: absolute;
+        left: -10000px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
       }
     }
   }

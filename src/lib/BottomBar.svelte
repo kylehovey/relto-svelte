@@ -6,7 +6,9 @@
         target="_blank"
         href="http://linkedin.com/in/kyle-hovey"
         rel="noreferrer"
-      />
+      >
+        <span>My Linkedin</span>
+      </a>
     </li>
     <li>
       <a
@@ -14,7 +16,9 @@
         target="_blank"
         href="http://github.com/kylehovey"
         rel="noreferrer"
-      />
+      >
+        <span>My GitHub</span>
+      </a>
     </li>
   </ul>
   <div class="links">
