@@ -1,5 +1,7 @@
 <script lang="typescript">
   import { FontAwesomeIcon } from "fontawesome-svelte";
+  import { useLazyImage as lazyImage } from "svelte-lazy-image";
+
   import { selectedProject } from "../state/projects";
 
   function unSelect() {
@@ -18,6 +20,6 @@
   <p>{$selectedProject?.description}</p>
   <a href={$selectedProject?.link} rel="noreferrer" target="_blank">(Link)</a>
   <div class="project-image-container">
-    <img src={$selectedProject?.image} alt="Picture of the project" />
+    <img src={$selectedProject?.image} alt="The project" use:lazyImage />
   </div>
 </div>

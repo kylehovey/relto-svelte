@@ -1,4 +1,4 @@
-import type { Project } from "../types";
+import type {Project} from "../types";
 import {
   faChessBoard,
   faHiking,
@@ -14,24 +14,24 @@ import {
   faTree,
 } from "@fortawesome/free-solid-svg-icons";
 
-import CalSimImage from "../assets/cal_sim.png";
-import MystNetImage from "../assets/myst_net.png";
-import FireplaceImage from "../assets/fireplace.png";
-import EulerGolfImage from "../assets/euler_golf.png";
-import ShaderToyImage from "../assets/shader_toy.png";
-import VectorWindImage from "../assets/vector_wind.png";
-import FieryFurnaceImage from "../assets/fiery_furnace.png";
-import EightBitSpaghettiImage from "../assets/8_bit_spaghetti.png";
-import AcousticForestImage from "../assets/acoustic-forest.png";
-import StationAnalysisImage from "../assets/station_analysis.png";
-import VilleinImage from "../assets/villein_translator.png";
-import AutomataExplorationImage from "../assets/automata_exploration.png";
+const calSimImage = "images/projects/cal_sim.png";
+const mystNetImage = "images/projects/myst_net.png";
+const fireplaceImage = "images/projects/fireplace.png";
+const eulerGolfImage = "images/projects/euler_golf.png";
+const shaderToyImage = "images/projects/shader_toy.png";
+const vectorWindImage = "images/projects/vector_wind.png";
+const fieryFurnaceImage = "images/projects/fiery_furnace.png";
+const eightBitSpaghettiImage = "images/projects/8_bit_spaghetti.png";
+const acousticForestImage = "images/projects/acoustic-forest.png";
+const stationAnalysisImage = "images/projects/station_analysis.png";
+const villeinImage = "images/projects/villein_translator.png";
+const automataExplorationImage = "images/projects/automata_exploration.png";
 
 export const projects: Project[] = [
   {
     title: "Automata Browser",
     icon: faChessBoard,
-    image: AutomataExplorationImage,
+    image: automataExplorationImage,
     year: "2020",
     brief: "Global map of all life-like Cellular Automata",
     description:
@@ -41,7 +41,7 @@ export const projects: Project[] = [
   {
     title: "Fiery Furnace",
     icon: faHiking,
-    image: FieryFurnaceImage,
+    image: fieryFurnaceImage,
     year: "2020",
     brief: "Interactive map of the Fiery Furnace in Arches National Park",
     description:
@@ -51,7 +51,7 @@ export const projects: Project[] = [
   {
     title: "Shader Toy",
     icon: faCubes,
-    image: ShaderToyImage,
+    image: shaderToyImage,
     year: "2020",
     brief: "Various shaders written by me",
     description:
@@ -61,7 +61,7 @@ export const projects: Project[] = [
   {
     title: "Myst Net",
     icon: faProjectDiagram,
-    image: MystNetImage,
+    image: mystNetImage,
     year: "2019",
     brief: "Neural Net for parsing D'ni numerals",
     description:
@@ -71,7 +71,7 @@ export const projects: Project[] = [
   {
     title: "Vector Wind",
     icon: faWind,
-    image: VectorWindImage,
+    image: vectorWindImage,
     year: "2017",
     brief: "Vector field visualization tool",
     description:
@@ -81,7 +81,7 @@ export const projects: Project[] = [
   {
     title: "CALSim",
     icon: faWaveSquare,
-    image: CalSimImage,
+    image: calSimImage,
     year: "2016",
     brief: "In-browser WireWorld cellular automata simulator",
     description:
@@ -91,7 +91,7 @@ export const projects: Project[] = [
   {
     title: "Villein Translator",
     icon: faCalculator,
-    image: VilleinImage,
+    image: villeinImage,
     year: "2016",
     brief: "Translator for Obduction's Villein numbers",
     description:
@@ -101,7 +101,7 @@ export const projects: Project[] = [
   {
     title: "Euler Golf",
     icon: faUndo,
-    image: EulerGolfImage,
+    image: eulerGolfImage,
     year: "2015",
     brief: "Recursive puzzle involving complex numbers",
     description:
@@ -111,7 +111,7 @@ export const projects: Project[] = [
   {
     title: "Station Report",
     icon: faCar,
-    image: StationAnalysisImage,
+    image: stationAnalysisImage,
     year: "2018",
     brief: "Analysis to find the best spots for new EV chargers",
     description:
@@ -121,7 +121,7 @@ export const projects: Project[] = [
   {
     title: "8-Bit Spaghetti",
     icon: faMicrochip,
-    image: EightBitSpaghettiImage,
+    image: eightBitSpaghettiImage,
     year: "2012",
     brief: "8-Bit Computer designed from the ground up",
     description:
@@ -131,7 +131,7 @@ export const projects: Project[] = [
   {
     title: "Fireplace",
     icon: faFire,
-    image: FireplaceImage,
+    image: fireplaceImage,
     year: "2016",
     brief: "Custom simulator written to mimic a campfire",
     description:
@@ -141,7 +141,7 @@ export const projects: Project[] = [
   {
     title: "Acoustic Forest",
     icon: faTree,
-    image: AcousticForestImage,
+    image: acousticForestImage,
     year: "2016",
     brief: "2D Procedural landscape that is reactive to sound",
     description:
