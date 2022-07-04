@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script lang="ts">
   import { FontAwesomeIcon } from "fontawesome-svelte";
   import { useLazyImage as lazyImage } from "svelte-lazy-image";
 
