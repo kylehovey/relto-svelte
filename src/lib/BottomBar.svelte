@@ -34,7 +34,4 @@
     <span class="divider">|</span>
     <a href="resolutions/index.html">Resolutions</a>
   </div>
-  <div class="attribution">
-    Inspired by <a href="https://github.com/autophagy/hraew">Hraew</a>
-  </div>
 </div>
