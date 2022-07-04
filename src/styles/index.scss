@@ -107,7 +107,7 @@ div.container {
 
       div.title-section {
         display: flex;
-        align-items: top;
+        align-items: center;
         justify-content: flex-start;
         margin-bottom: 10px;
 
@@ -126,18 +126,22 @@ div.container {
         }
       }
 
-      a {
+      button {
         color: $fg;
         background-color: lighten($bg, 4%);
-        text-decoration: none;
+        border: none;
         padding: 15px;
         margin: 0px;
-        display: block;
+        display: flex;
+        flex-direction: column;
+        height: 100px;
         width: 100%;
+        text-align: left;
 
         &:hover {
           background-color: lighten($bg, 10%);
           transition: 0.5s;
+          cursor: pointer;
         }
 
         span {
@@ -148,7 +152,7 @@ div.container {
           }
 
           &.brief {
-            font-size: 75%;
+            font-size: 90%;
             line-height: 130%;
           }
         }

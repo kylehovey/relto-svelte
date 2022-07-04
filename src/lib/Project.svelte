@@ -11,13 +11,15 @@
 </script>
 
 <li>
-  <a href="#" on:click={handleClick}>
+  <button on:click={handleClick}>
     <div class="title-section">
       <FontAwesomeIcon icon={project?.icon} />
       <span class="title">{project?.title}</span>
     </div>
-    <span class="brief">{project?.brief}</span>
-  </a>
+    <div>
+      <span class="brief">{project?.brief}</span>
+    </div>
+  </button>
 </li>
 
 <style>
