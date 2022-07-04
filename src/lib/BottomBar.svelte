@@ -31,7 +31,5 @@
     <a href="blog">Blog</a>
     <span class="divider">|</span>
     <a href="MATH_5620">Math 5620</a>
-    <span class="divider">|</span>
-    <a href="resolutions/index.html">Resolutions</a>
   </div>
 </div>
