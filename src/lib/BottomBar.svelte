@@ -31,5 +31,11 @@
     <a href="blog">Blog</a>
     <span class="divider">|</span>
     <a href="MATH_5620">Math 5620</a>
+    <span class="divider">|</span>
+    <a
+      href="https://kylehovey-resolutions.vercel.app"
+      target="_blank"
+      rel="noreferrer">Resolutions</a
+    >
   </div>
 </div>
