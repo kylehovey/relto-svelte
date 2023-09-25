@@ -23,7 +23,7 @@
                 include mathematics, electrical engineering, programming, music,
                 hiking, climbing, and philosophy. Here you can see some
                 highlights from my past/current projects. Check out my blog for
-                diatribes on math and programming.
+                posts on math and programming.
               </p>
             </div>
           {/if}
