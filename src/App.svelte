@@ -51,9 +51,10 @@
 
     const maxSpeed: number = 2.0;
     const radius = 200;
-    const sepStrength = 1;
-    const cohesionStrength = 1.5;
-    const maxForce = 0.01;
+    const separationStrength = 1;
+    const alignmentStrength = 2;
+    const cohesionStrength = 2;
+    const maxForce = 0.001;
 
     const add = ([x, y]: Vector, [u, v]: Vector): Vector => [x + u, y + v];
     const sub = ([x, y]: Vector, [u, v]: Vector): Vector => [x - u, y - v];
@@ -75,38 +76,47 @@
       let count = 0;
       let avgDir: Vector = [0, 0];
       let avgPos: Vector = [0, 0];
+      let avgDiff: Vector = [0, 0];
 
       for (const other of universe) {
         const dist = metric(other.pos, me.pos);
 
         if (dist > 0 && dist <= radius) {
           count += 1;
-          avgDir = add(avgDir, mul(1 / dist, other.dS));
+          avgDir = add(avgDir, mul(1 / dist, normalize(other.dS)));
           avgPos = add(avgPos, other.pos);
+          avgDiff = mul(1 / dist, normalize(sub(me.pos, other.pos)));
         }
       }
 
-      let cohesion: Vector = [0, 0];
       let separation: Vector = [0, 0];
+      let alignment: Vector = [0, 0];
+      let cohesion: Vector = [0, 0];
 
       if (count > 0) {
+        const separationVelocity = mul(maxSpeed, normalize(avgDiff));
+        separation = mul(
+          separationStrength,
+          steerWith(separationVelocity, me.dS)
+        );
+
+        const alignmentVelocity = mul(maxSpeed, normalize(avgDir));
+        alignment = mul(alignmentStrength, steerWith(alignmentVelocity, me.dS));
+
         const cohesionVelocity = mul(maxSpeed, normalize(sub(avgPos, me.pos)));
         cohesion = mul(cohesionStrength, steerWith(cohesionVelocity, me.dS));
-
-        const separationVelocity = mul(maxSpeed, normalize(mul(-1, avgDir)));
-        separation = mul(sepStrength, steerWith(separationVelocity, me.dS));
       }
 
-      return [separation, cohesion, [0, 0]];
+      return [separation, alignment, cohesion];
     };
 
     const update = (boid: Boid, universe: Boid[]): Boid => {
-      const [sep, cohesion] = drivers(boid, universe);
+      const [sep, alignment, cohesion] = drivers(boid, universe);
 
       // Move the boid
       const pos = add(boid.pos, boid.dS);
       const _dS: Vector = add(boid.dS, boid.d2S);
-      const d2S: Vector = add(add(sep, cohesion), boid.d2S);
+      const d2S: Vector = add(add(sep, add(alignment, cohesion)), boid.d2S);
 
       const mag = norm(_dS);
       const dS = mag > maxSpeed ? mul(maxSpeed, normalize(_dS)) : _dS;
@@ -129,6 +139,12 @@
         dS: [Math.cos(angle), Math.sin(angle)],
         d2S: [0, 0],
       });
+    }
+
+    for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < boids.length; i++) {
+        boids[i] = update(boids[i], boids);
+      }
     }
 
     const animate = () => {
