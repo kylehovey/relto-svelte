@@ -80,6 +80,7 @@
     const neuralDamp = 0.9;
     const quiescence = 1e-6;
     const randomFireRate = 1e-3;
+    const activationPotential = 0.1;
 
     const add = ([x, y]: Vector, [u, v]: Vector): Vector => [x + u, y + v];
     const sub = ([x, y]: Vector, [u, v]: Vector): Vector => [x - u, y - v];
@@ -112,11 +113,15 @@
       return mul(Math.min(maxForce, rawMag), normalize(desired));
     };
 
-    const drivers = (me: Boid, universe: Boid[]): [Vector, Vector, Vector] => {
+    const drivers = (
+      me: Boid,
+      universe: Boid[]
+    ): [Vector, Vector, Vector, number] => {
       let count = 0;
       let avgDir: Vector = [0, 0];
       let avgPos: Vector = [0, 0];
       let avgDiff: Vector = [0, 0];
+      let arousal: number = 0;
 
       for (const other of universe) {
         const dist = metric(other.pos, me.pos);
@@ -126,6 +131,7 @@
           avgDir = add(avgDir, mul(1 / dist, normalize(other.dS)));
           avgPos = add(avgPos, other.pos);
           avgDiff = mul(1 / dist, normalize(sub(me.pos, other.pos)));
+          arousal += other.activation / dist;
         }
       }
 
@@ -147,11 +153,11 @@
         cohesion = mul(cohesionStrength, steerWith(cohesionVelocity, me.dS));
       }
 
-      return [separation, alignment, cohesion];
+      return [separation, alignment, cohesion, arousal];
     };
 
     const update = (boid: Boid, universe: Boid[]): Boid => {
-      const [sep, alignment, cohesion] = drivers(boid, universe);
+      const [sep, alignment, cohesion, arousal] = drivers(boid, universe);
 
       // Move the boid
       const pos = add(boid.pos, boid.dS);
@@ -163,7 +169,10 @@
       if (activation <= quiescence) {
         activation = 0;
 
-        if (Math.random() > 1 - randomFireRate) {
+        if (
+          arousal >= activationPotential ||
+          Math.random() > 1 - randomFireRate
+        ) {
           activation = 1;
         }
       }
