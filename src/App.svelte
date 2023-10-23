@@ -73,9 +73,9 @@
 
     const maxSpeed: number = 1.0;
     const radius = 200;
-    const separationStrength = 1;
+    const separationStrength = 0.5;
     const alignmentStrength = 2;
-    const cohesionStrength = 0.5;
+    const cohesionStrength = 0.4;
     const maxForce = 0.001;
     const neuralDamp = 0.95;
     const quiescence = 1e-6;
@@ -208,7 +208,7 @@
       });
     }
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 300; i++) {
       for (let i = 0; i < boids.length; i++) {
         boids[i] = update(boids[i], boids);
       }
