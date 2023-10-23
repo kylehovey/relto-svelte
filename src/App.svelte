@@ -224,7 +224,10 @@
       }
     };
 
-    animate();
+    // Try not to animate on mobile devices
+    if (window.innerWidth > 600) {
+      animate();
+    }
   });
 </script>
 
