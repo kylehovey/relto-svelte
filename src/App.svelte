@@ -50,40 +50,53 @@
     };
 
     const maxSpeed: number = 2.0;
-    const radius = 100;
-    const sepStrength = 1;
+    const radius = 300;
+    const sepStrength = 3;
+    const cohesionStrength = 3;
 
     const add = ([x, y]: Vector, [u, v]: Vector): Vector => [x + u, y + v];
+    const sub = ([x, y]: Vector, [u, v]: Vector): Vector => [x - u, y - v];
     const mul = (s: number, [u, v]: Vector): Vector => [s * u, s * v];
     const norm = ([x, y]: Vector): number => Math.sqrt(x * x + y * y);
-    const metric = ([x, y]: Vector, [u, v]: Vector): number =>
-      norm([u - x, v - y]);
+    const metric = (u: Vector, v: Vector): number => norm(sub(u, v));
     const normalize = (v: Vector): Vector => {
       const len = norm(v);
-      return len > 0 ? mul(1 / len, v) : v;
+      return len !== 0 ? mul(1 / len, v) : v;
     };
 
-    const drivers = ({ pos }: Boid, universe: Boid[]): [Vector] => {
+    const drivers = (me: Boid, universe: Boid[]): [Vector, Vector, Vector] => {
+      let count = 0;
       let avgDir: Vector = [0, 0];
+      let avgPos: Vector = [0, 0];
 
-      for (const boid of universe) {
-        const dist = metric(boid.pos, pos);
+      for (const other of universe) {
+        const dist = metric(other.pos, me.pos);
 
         if (dist > 0 && dist <= radius) {
-          avgDir = add(avgDir, mul(1 / dist, boid.dS));
+          count += 1;
+          avgDir = add(avgDir, mul(1 / dist, other.dS));
+          avgPos = add(avgPos, other.pos);
         }
       }
 
-      return [normalize(mul(-maxSpeed, avgDir))];
+      const sep = mul(sepStrength, normalize(mul(-1, avgDir)));
+
+      let cohesion: Vector = [0, 0];
+
+      if (count > 0) {
+        cohesion = mul(cohesionStrength, normalize(sub(avgPos, me.pos)));
+      }
+
+      return [sep, cohesion, [0, 0]];
     };
 
     const update = (boid: Boid, universe: Boid[]): Boid => {
-      const [sep] = drivers(boid, universe);
+      const [sep, cohesion] = drivers(boid, universe);
 
       // Move the boid
       const pos = add(boid.pos, boid.dS);
       const _dS: Vector = add(boid.dS, boid.d2S);
-      const d2S: Vector = add(mul(sepStrength, sep), boid.d2S);
+      const d2S: Vector = add(add(sep, cohesion), boid.d2S);
 
       const mag = norm(_dS);
       const dS = mag > maxSpeed ? mul(maxSpeed, normalize(_dS)) : _dS;
