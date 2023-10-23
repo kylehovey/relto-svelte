@@ -50,9 +50,10 @@
     };
 
     const maxSpeed: number = 2.0;
-    const radius = 300;
-    const sepStrength = 3;
-    const cohesionStrength = 3;
+    const radius = 200;
+    const sepStrength = 1;
+    const cohesionStrength = 1.5;
+    const maxForce = 0.01;
 
     const add = ([x, y]: Vector, [u, v]: Vector): Vector => [x + u, y + v];
     const sub = ([x, y]: Vector, [u, v]: Vector): Vector => [x - u, y - v];
@@ -62,6 +63,12 @@
     const normalize = (v: Vector): Vector => {
       const len = norm(v);
       return len !== 0 ? mul(1 / len, v) : v;
+    };
+
+    const steerWith = (dir: Vector, velocity: Vector): Vector => {
+      const desired = sub(dir, velocity);
+      const rawMag = norm(desired);
+      return mul(Math.min(maxForce, rawMag), normalize(desired));
     };
 
     const drivers = (me: Boid, universe: Boid[]): [Vector, Vector, Vector] => {
@@ -79,15 +86,18 @@
         }
       }
 
-      const sep = mul(sepStrength, normalize(mul(-1, avgDir)));
-
       let cohesion: Vector = [0, 0];
+      let separation: Vector = [0, 0];
 
       if (count > 0) {
-        cohesion = mul(cohesionStrength, normalize(sub(avgPos, me.pos)));
+        const cohesionVelocity = mul(maxSpeed, normalize(sub(avgPos, me.pos)));
+        cohesion = mul(cohesionStrength, steerWith(cohesionVelocity, me.dS));
+
+        const separationVelocity = mul(maxSpeed, normalize(mul(-1, avgDir)));
+        separation = mul(sepStrength, steerWith(separationVelocity, me.dS));
       }
 
-      return [sep, cohesion, [0, 0]];
+      return [separation, cohesion, [0, 0]];
     };
 
     const update = (boid: Boid, universe: Boid[]): Boid => {
