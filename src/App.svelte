@@ -24,15 +24,15 @@
   }
 
   const gruvboxDarkBlue: Color = {
-    r: 131,
-    g: 165,
-    b: 152,
+    r: 63,
+    g: 66,
+    b: 65,
   };
 
-  const gruvboxLightBlue: Color = {
-    r: 255,
-    g: 0,
-    b: 0,
+  const activationLight: Color = {
+    r: 150,
+    g: 200,
+    b: 255,
   };
 
   onMount(() => {
@@ -80,7 +80,7 @@
     const neuralDamp = 0.9;
     const quiescence = 1e-6;
     const randomFireRate = 1e-3;
-    const activationPotential = 0.1;
+    const activationPotential = 0.01;
 
     const add = ([x, y]: Vector, [u, v]: Vector): Vector => [x + u, y + v];
     const sub = ([x, y]: Vector, [u, v]: Vector): Vector => [x - u, y - v];
@@ -91,6 +91,9 @@
       const len = norm(v);
       return len !== 0 ? mul(1 / len, v) : v;
     };
+    // https://www.desmos.com/calculator/yba16tkwjc
+    const measureActivation = (activation: number): number =>
+      1 / (1 + Math.exp(40 * (activation - 0.5) ** 2));
 
     const lerp = (s: number, start: number, end: number): number =>
       (1 - s) * start + s * end;
@@ -104,7 +107,11 @@
       b: lerp(s, ba, bb),
     });
     const colorFor = (boid: Boid): Color =>
-      lerpColor(boid.activation, gruvboxDarkBlue, gruvboxLightBlue);
+      lerpColor(
+        measureActivation(boid.activation),
+        gruvboxDarkBlue,
+        activationLight
+      );
     const asColorString = ({ r, g, b }: Color): string => `rgb(${r},${g},${b})`;
 
     const steerWith = (dir: Vector, velocity: Vector): Vector => {
@@ -131,7 +138,7 @@
           avgDir = add(avgDir, mul(1 / dist, normalize(other.dS)));
           avgPos = add(avgPos, other.pos);
           avgDiff = mul(1 / dist, normalize(sub(me.pos, other.pos)));
-          arousal += other.activation / dist;
+          arousal += measureActivation(other.activation) / dist;
         }
       }
 
