@@ -208,7 +208,7 @@
       });
     }
 
-    for (let i = 0; i < 300; i++) {
+    for (let i = 0; i < 100; i++) {
       for (let i = 0; i < boids.length; i++) {
         boids[i] = update(boids[i], boids);
       }
