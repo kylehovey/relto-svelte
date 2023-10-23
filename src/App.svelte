@@ -14,7 +14,26 @@
     pos: Vector;
     dS: Vector;
     d2S: Vector;
+    activation: number;
   }
+
+  interface Color {
+    r: number;
+    g: number;
+    b: number;
+  }
+
+  const gruvboxDarkBlue: Color = {
+    r: 131,
+    g: 165,
+    b: 152,
+  };
+
+  const gruvboxLightBlue: Color = {
+    r: 255,
+    g: 0,
+    b: 0,
+  };
 
   onMount(() => {
     const canvas = <HTMLCanvasElement>document.getElementById("boids-canvas");
@@ -27,10 +46,13 @@
     window.addEventListener("resize", resize);
     resize();
 
-    const draw = ({ pos: [x, y], dS: [dx, dy] }: Boid) => {
+    const draw = (boid: Boid) => {
       if (context === null) {
         return;
       }
+
+      const [x, y] = boid.pos;
+      const [dx, dy] = boid.dS;
 
       const angle = Math.atan2(dy, dx);
       context.save();
@@ -43,7 +65,7 @@
       context.lineTo(-10, 5);
       context.lineTo(-10, -5);
       context.closePath();
-      context.fillStyle = "#83a598";
+      context.fillStyle = asColorString(colorFor(boid));
       context.fill();
 
       context.restore();
@@ -55,6 +77,9 @@
     const alignmentStrength = 2;
     const cohesionStrength = 2;
     const maxForce = 0.001;
+    const neuralDamp = 0.9;
+    const quiescence = 1e-6;
+    const randomFireRate = 1e-3;
 
     const add = ([x, y]: Vector, [u, v]: Vector): Vector => [x + u, y + v];
     const sub = ([x, y]: Vector, [u, v]: Vector): Vector => [x - u, y - v];
@@ -65,6 +90,21 @@
       const len = norm(v);
       return len !== 0 ? mul(1 / len, v) : v;
     };
+
+    const lerp = (s: number, start: number, end: number): number =>
+      (1 - s) * start + s * end;
+    const lerpColor = (
+      s: number,
+      { r: ra, g: ga, b: ba }: Color,
+      { r: rb, g: gb, b: bb }: Color
+    ): Color => ({
+      r: lerp(s, ra, rb),
+      g: lerp(s, ga, gb),
+      b: lerp(s, ba, bb),
+    });
+    const colorFor = (boid: Boid): Color =>
+      lerpColor(boid.activation, gruvboxDarkBlue, gruvboxLightBlue);
+    const asColorString = ({ r, g, b }: Color): string => `rgb(${r},${g},${b})`;
 
     const steerWith = (dir: Vector, velocity: Vector): Vector => {
       const desired = sub(dir, velocity);
@@ -118,6 +158,16 @@
       const _dS: Vector = add(boid.dS, boid.d2S);
       const d2S: Vector = add(add(sep, add(alignment, cohesion)), boid.d2S);
 
+      let activation: number = boid.activation * neuralDamp;
+
+      if (activation <= quiescence) {
+        activation = 0;
+
+        if (Math.random() > 1 - randomFireRate) {
+          activation = 1;
+        }
+      }
+
       const mag = norm(_dS);
       const dS = mag > maxSpeed ? mul(maxSpeed, normalize(_dS)) : _dS;
 
@@ -127,7 +177,7 @@
       if (pos[1] > canvas.height) pos[1] = 0;
       if (pos[1] < 0) pos[1] = canvas.height;
 
-      return { pos, dS, d2S };
+      return { pos, dS, d2S, activation };
     };
 
     const boids: Boid[] = [];
@@ -138,6 +188,7 @@
         pos: [Math.random() * canvas.width, Math.random() * canvas.height],
         dS: [Math.cos(angle), Math.sin(angle)],
         d2S: [0, 0],
+        activation: 0,
       });
     }
 
