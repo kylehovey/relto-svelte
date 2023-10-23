@@ -1,14 +1,130 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
   import Project from "./lib/Project.svelte";
   import ProjectDetails from "./lib/ProjectDetails.svelte";
   import BottomBar from "./lib/BottomBar.svelte";
 
   import { projects } from "./data/projects";
   import { selectedProject } from "./state/projects";
+
+  type Vector = [number, number];
+
+  interface Boid {
+    pos: Vector;
+    dS: Vector;
+    d2S: Vector;
+  }
+
+  onMount(() => {
+    const canvas = <HTMLCanvasElement>document.getElementById("boids-canvas");
+    const context = canvas.getContext("2d");
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    window.addEventListener("resize", resize);
+    resize();
+
+    const draw = ({ pos: [x, y], dS: [dx, dy] }: Boid) => {
+      if (context === null) {
+        return;
+      }
+
+      const angle = Math.atan2(dy, dx);
+      context.save();
+      context.translate(x, y);
+      context.rotate(angle);
+
+      // Draw a little arrow
+      context.beginPath();
+      context.moveTo(10, 0);
+      context.lineTo(-10, 5);
+      context.lineTo(-10, -5);
+      context.closePath();
+      context.fillStyle = "#83a598";
+      context.fill();
+
+      context.restore();
+    };
+
+    const maxSpeed: number = 2.0;
+    const radius = 100;
+    const sepStrength = 1;
+
+    const add = ([x, y]: Vector, [u, v]: Vector): Vector => [x + u, y + v];
+    const mul = (s: number, [u, v]: Vector): Vector => [s * u, s * v];
+    const norm = ([x, y]: Vector): number => Math.sqrt(x * x + y * y);
+    const metric = ([x, y]: Vector, [u, v]: Vector): number =>
+      norm([u - x, v - y]);
+    const normalize = (v: Vector): Vector => {
+      const len = norm(v);
+      return len > 0 ? mul(1 / len, v) : v;
+    };
+
+    const drivers = ({ pos }: Boid, universe: Boid[]): [Vector] => {
+      let avgDir: Vector = [0, 0];
+
+      for (const boid of universe) {
+        const dist = metric(boid.pos, pos);
+
+        if (dist > 0 && dist <= radius) {
+          avgDir = add(avgDir, mul(1 / dist, boid.dS));
+        }
+      }
+
+      return [normalize(mul(-maxSpeed, avgDir))];
+    };
+
+    const update = (boid: Boid, universe: Boid[]): Boid => {
+      const [sep] = drivers(boid, universe);
+
+      // Move the boid
+      const pos = add(boid.pos, boid.dS);
+      const _dS: Vector = add(boid.dS, boid.d2S);
+      const d2S: Vector = add(mul(sepStrength, sep), boid.d2S);
+
+      const mag = norm(_dS);
+      const dS = mag > maxSpeed ? mul(maxSpeed, normalize(_dS)) : _dS;
+
+      // Wrap around the canvas
+      if (pos[0] > canvas.width) pos[0] = 0;
+      if (pos[0] < 0) pos[0] = canvas.width;
+      if (pos[1] > canvas.height) pos[1] = 0;
+      if (pos[1] < 0) pos[1] = canvas.height;
+
+      return { pos, dS, d2S };
+    };
+
+    const boids: Boid[] = [];
+
+    for (let i = 0; i < 200; i++) {
+      const angle = Math.random() * 2 * Math.PI;
+      boids.push({
+        pos: [Math.random() * canvas.width, Math.random() * canvas.height],
+        dS: [Math.cos(angle), Math.sin(angle)],
+        d2S: [0, 0],
+      });
+    }
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < boids.length; i++) {
+        draw(boids[i]);
+        boids[i] = update(boids[i], boids);
+      }
+    };
+
+    animate();
+  });
 </script>
 
 <main>
   <div class="container">
+    <canvas id="boids-canvas" class="full-canvas" />
     <div class="content">
       <div class="main">
         <div class="description">
