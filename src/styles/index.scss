@@ -105,6 +105,10 @@ div.container {
       border-radius: 2px;
       padding: 0 0 10px 10px;
 
+      @media only screen and (max-width: 600px) {
+        width: 100%;
+      }
+
       div.title-section {
         display: flex;
         align-items: center;
