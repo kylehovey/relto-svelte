@@ -15,8 +15,8 @@
     <button class="back-button" on:click={goBack}>
       {"⇐ "}
     </button>
-    <h2>{$selectedPhoto.title}</h2>
+    <!-- <h2>{$selectedPhoto.title}</h2> -->
     <img src={urls.full} alt={$selectedPhoto.description} use:lazyImage />
-    <span>{$selectedPhoto.description}</span>
+    <!-- <span>{$selectedPhoto.description}</span> -->
   </div>
 </div>
