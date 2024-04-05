@@ -2,7 +2,7 @@ import {View} from "../types";
 import {writable} from "svelte/store";
 
 function createState() {
-  const {subscribe, set} = writable<View>(View.Photos);
+  const {subscribe, set} = writable<View>(View.Main);
 
   return {
     subscribe,
