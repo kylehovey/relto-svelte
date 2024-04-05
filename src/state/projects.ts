@@ -1,8 +1,8 @@
-import type { Project } from "../types";
-import { writable } from "svelte/store";
+import type {Project} from "../types";
+import {writable} from "svelte/store";
 
 function createState() {
-  const { subscribe, set } = writable<Project | null>(null);
+  const {subscribe, set} = writable<Project | null>(null);
 
   return {
     subscribe,

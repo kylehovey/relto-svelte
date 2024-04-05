@@ -1,12 +1,14 @@
 <script lang="ts">
-  import type { Project } from "../types";
+  import { View, type Project } from "../types";
   import { FontAwesomeIcon } from "fontawesome-svelte";
   import { selectedProject } from "../state/projects";
+  import { currentView } from "../state/views";
 
   export let project: Project;
 
   const handleClick = () => {
     selectedProject.setProject(project);
+    currentView.setView(View.Project);
   };
 </script>
 
@@ -21,6 +23,3 @@
     </div>
   </button>
 </li>
-
-<style>
-</style>

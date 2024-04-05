@@ -164,6 +164,71 @@ div.container {
       }
     }
   }
+
+  .photo-portfolio-container {
+    margin-top: 10px;
+  }
+
+  ul.photo-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    margin-left: -10px;
+    padding: 0;
+    justify-content: center;
+
+    li {
+      display: flex;
+      align-items: stretch;
+      list-style: none;
+      width: 320px;
+      transition: 0.5s;
+      border-radius: 2px;
+      padding: 0 0 10px 10px;
+
+      @media only screen and (max-width: 600px) {
+        width: 100%;
+      }
+
+      img {
+        margin: 5px;
+        border: 10px solid lighten($fg, 30%);
+        max-width: calc(100% - 30px);
+        max-height: 200px;
+      }
+
+      div.title-section {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 10px;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      button {
+        color: $fg;
+        background-color: transparent;
+        border: none;
+        margin: 0px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        text-align: left;
+        transition: 0.5s;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background-color: lighten($bg, 10%);
+          transition: 0.5s;
+          cursor: pointer;
+        }
+      }
+    }
+  }
 }
 
 @font-face {
@@ -297,19 +362,20 @@ div.container {
   }
 }
 
-.details {
-  button {
-    color: $red;
-    background: none;
-    border: none;
-    text-decoration: none;
-    font-weight: 1000;
-    font-size: 1.4em;
+button.back-button {
+  color: $red;
+  background: none;
+  border: none;
+  text-decoration: none;
+  font-weight: 1000;
+  font-size: 1.4em;
 
-    &:hover {
-      cursor: pointer;
-    }
+  &:hover {
+    cursor: pointer;
   }
+}
+
+.details {
 
   h3 {
     color: $hl;
@@ -348,4 +414,82 @@ div.container {
   left: 0;
   z-index: -1;
   filter: blur(2px);
+}
+
+.full-photo-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(15px);
+
+  div.photo-rows {
+    max-width: 50%;
+
+    img {
+      width: 100%;
+      border: 30px solid lighten($fg, 30%);
+    }
+  }
+}
+
+div.photography-button-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  margin-left: -10px;
+  padding: 0;
+  justify-content: center;
+  margin-top: 15px;
+
+  button.photography-portfolio-link {
+    color: $fg;
+    background-color: lighten($bg, 4%);
+    border: none;
+    padding: 25px;
+    margin: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    transition: 0.5s;
+
+    div.title-section {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      svg {
+        font-size: 1.5rem;
+        padding-right: 10px;
+      }
+    }
+
+    &:hover {
+      background-color: lighten($bg, 10%);
+      transition: 0.5s;
+      cursor: pointer;
+    }
+
+    span {
+      display: block;
+
+      &.title {
+        color: $hl;
+      }
+
+      &.brief {
+        font-size: 90%;
+        line-height: 130%;
+      }
+    }
+  }
+}
+
+.divider {
+  width: 30%;
 }

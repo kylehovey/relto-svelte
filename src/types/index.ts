@@ -1,4 +1,4 @@
-import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import type {IconDefinition} from "@fortawesome/free-solid-svg-icons";
 
 export interface Project {
   title: string;
@@ -8,4 +8,16 @@ export interface Project {
   brief: string;
   description: string;
   link: string;
+}
+
+export enum View {
+  Main = 'main',
+  Project = 'project',
+  Photos = 'photos',
+}
+
+export interface PortfolioPhoto {
+  index: number;
+  title: string;
+  description: string;
 }
