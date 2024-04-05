@@ -141,6 +141,7 @@ div.container {
         height: 100px;
         width: 100%;
         text-align: left;
+        transition: 0.5s;
 
         &:hover {
           background-color: lighten($bg, 10%);
