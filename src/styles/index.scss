@@ -368,7 +368,7 @@ button.back-button {
   border: none;
   text-decoration: none;
   font-weight: 1000;
-  font-size: 1.4em;
+  font-size: 1.7em;
 
   &:hover {
     cursor: pointer;
@@ -421,18 +421,32 @@ button.back-button {
   top: 0;
   left: 0;
   z-index: 2;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(15px);
+  flex-direction: column;
+
+  .photo-container-header {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    span.photo-title {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+  }
 
   div.photo-rows {
-    max-width: 50%;
-
     img {
-      width: 100%;
-      border: 30px solid lighten($fg, 30%);
+      height: auto;
+      max-width: 80vw;
+      max-height: 80vh;
+      border: 15px solid lighten($fg, 30%);
     }
   }
 }

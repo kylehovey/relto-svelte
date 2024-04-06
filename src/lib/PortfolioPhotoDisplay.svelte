@@ -11,12 +11,14 @@
 </script>
 
 <div class="full-photo-container">
-  <div class="photo-rows">
-    <button class="back-button" on:click={goBack}>
-      {"⇐ "}
-    </button>
-    <!-- <h2>{$selectedPhoto.title}</h2> -->
-    <img src={urls.full} alt={$selectedPhoto.description} use:lazyImage />
-    <!-- <span>{$selectedPhoto.description}</span> -->
+  <div class="photo-container-header">
+    <span class="photo-title">{$selectedPhoto.title}</span>
   </div>
+  <span class="photo-description">{$selectedPhoto.description}</span>
+  <div class="photo-rows">
+    <img src={urls.full} alt={$selectedPhoto.description} use:lazyImage />
+  </div>
+  <button class="back-button" on:click={goBack}>
+    {"⇐ "}
+  </button>
 </div>
